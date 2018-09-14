@@ -1,0 +1,6 @@
+# 菲哩咕生活服务平台后端代码
+Nodejs + Koa + Mongodb
+
+# 如何使用
+first step => yarn install or npm install 安装所有的依赖文件，
+second step => node app 使用node 启动服务
