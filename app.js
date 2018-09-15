@@ -166,7 +166,7 @@ Router.post('/flw', async (ctx, next) => {
 			forumType: 7,
 			imei: 863254010101235,
 			packageName: 'com.appbyme.app32067',
-			page: 1,
+			page: reqData.page,
 			pageSize: 20,
 			platType: 1,
 			sdkType: null,
@@ -227,7 +227,7 @@ Router.post('/flw/detail', async (ctx, next) => {
 app
 	.use(Router.routes())
 	.use(Router.allowedMethods());
-app.listen('4000', () => {
+app.listen('20200', () => {
 	console.log('服务器启动成功')
 });
 // })();
