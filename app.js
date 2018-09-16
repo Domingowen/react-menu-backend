@@ -6,9 +6,11 @@ const app = new Koa();
 const Router = new KoaRouter();
 const bodyParser = require('koa-bodyparser');
 const request = require('superagent');
+const jsonp = require('superagent-jsonp');
+// const jsonp = require('jsonp');
 app.use(cors());
 app.use(bodyParser());
-// (async () => {
+// app.use(jsonp());
 Router.post('/getFoodList', async (ctx, next) => {
 	axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 	axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
@@ -224,10 +226,72 @@ Router.post('/flw/detail', async (ctx, next) => {
         data: data
     }
 });
+Router.post('/music/list', async (ctx, next) => {
+    let reqData = ctx.request.body;
+    let data = await request
+        .post(`http://search.kuwo.cn/r.s?all=${reqData.searchName}=music&client=kt&cluster=0&rn=10&rformat=json&callback=searchMusicResult&encoding=utf8&vipver=MUSIC_8.0.3.1&`)
+        .set('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.72 Safari/537.36')
+        .then((res) => {
+            console.log(JSON.parse(res.text));
+            return JSON.parse(res.text);
+        });
+    return ctx.body ={
+        status: 200,
+        data: data
+    }
+});
+Router.post('/music/search', async (ctx, next) => {
+    let reqData = ctx.request.body;
+    console.log(reqData.search);
+	function searchMusicResult (data) {
+		console.log(data);
+	}
+	let url = null;
+	if (reqData.page > 0) {
+        url = `http://search.kuwo.cn/r.s?all=${reqData.search}&ft=music&client=kt&cluster=0&pn=${reqData.page}&rn=10&rformat=json&encoding=utf8&vipver=MUSIC_8.0.3.1&callback=searchMusicResult`;
+	} else {
+        url = `http://search.kuwo.cn/r.s?all=${reqData.search}&ft=music&client=kt&cluster=0&rn=10&rformat=json&encoding=utf8&vipver=MUSIC_8.0.3.1`;
+    }
+    let data = await request
+        .get(url)
+        .use(jsonp({
+            timeout: 3000,
+            // callbackName: 'searchMusicResult'
+        }))
+        .set('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.72 Safari/537.36')
+        .then((res) => {
+			// console.log(res);
+            // console.log(JSON.parse(res.text));
+            // searchMusicResult();
+            return res.text;
+        });
+    return ctx.body ={
+        status: 200,
+        data: data
+    }
+});
+Router.post('/music/play', async (ctx, next) => {
+    let reqData = ctx.request.body;
+    let data = await request
+        .post('http://music.bbbbbb.me/')
+        .send({
+			input: reqData.id,
+			filter: reqData.filter,
+			type: reqData.type,
+			page: reqData.page,
+        })
+		.then((res) => {
+			console.log(JSON.parse(res.text));
+            return JSON.parse(res.text);
+        });
+    return ctx.body ={
+        status: 200,
+        data: data
+    }
+});
 app
 	.use(Router.routes())
 	.use(Router.allowedMethods());
 app.listen('20200', () => {
 	console.log('服务器启动成功')
 });
-// })();

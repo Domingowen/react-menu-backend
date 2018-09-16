@@ -5,11 +5,14 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
+    "jsonp": "^0.2.1",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
+    "koa-jsonp": "^2.0.2",
     "koa-router": "^7.4.0",
     "koa2-cors": "^2.0.6",
     "mongoose": "^5.2.14",
-    "superagent": "^3.8.3"
+    "superagent": "^3.8.3",
+    "superagent-jsonp": "^0.2.1"
   }
 }
