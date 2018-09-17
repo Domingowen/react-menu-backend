@@ -240,7 +240,7 @@ Router.post('/music/list', async (ctx, next) => {
         data: data
     }
 });
-Router.post('/music/search', async (ctx, next) => {
+Router.post('/music/search/kw', async (ctx, next) => {
     let reqData = ctx.request.body;
     console.log(reqData.search);
 	function searchMusicResult (data) {
@@ -270,10 +270,42 @@ Router.post('/music/search', async (ctx, next) => {
         data: data
     }
 });
+Router.post('/music/search/qq', async (ctx, next) => {
+	let reqData = ctx.request.body;
+	console.log(reqData);
+	let data = await request
+		.post('http://music.bbbbbb.me/')
+		.set('Host', 'music.bbbbbb.me')
+		.set('Origin', 'http://music.bbbbbb.me')
+		.set('Referer', `http://music.bbbbbb.me/?name=${encodeURI(reqData.search)}&type=qq`)
+		.set('Content-Type', `application/x-www-form-urlencoded`)
+		.set('X-Requested-With', `XMLHttpRequest`)
+		.send({
+			input: reqData.search,
+			filter: reqData.filter,
+			type: reqData.type,
+			page: reqData.page
+		})
+		.then((res) => {
+			// console.log(res);
+			console.log(JSON.parse(res.text));
+			// searchMusicResult();
+			return JSON.parse(res.text);
+		});
+	return ctx.body ={
+		status: 200,
+		data: data
+	}
+});
 Router.post('/music/play', async (ctx, next) => {
     let reqData = ctx.request.body;
     let data = await request
         .post('http://music.bbbbbb.me/')
+	    .set('Host', 'music.bbbbbb.me')
+	    .set('Origin', 'http://music.bbbbbb.me')
+	    .set('Referer', `http://music.bbbbbb.me/?name=${encodeURI(reqData.search)}&type=qq`)
+	    .set('Content-Type', `application/x-www-form-urlencoded`)
+	    .set('X-Requested-With', `XMLHttpRequest`)
         .send({
 			input: reqData.id,
 			filter: reqData.filter,
@@ -281,7 +313,7 @@ Router.post('/music/play', async (ctx, next) => {
 			page: reqData.page,
         })
 		.then((res) => {
-			console.log(JSON.parse(res.text));
+			// console.log(JSON.parse(res.text));
             return JSON.parse(res.text);
         });
     return ctx.body ={
