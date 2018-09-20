@@ -320,10 +320,10 @@ Router.post('/music/search/qq', async (ctx, next) => {
 	let reqData = ctx.request.body;
 	console.log(reqData);
 	let data = await request
-		.post('https://music.2333.me/')
-		.set('Host', 'music.2333.me')
-		.set('Origin', 'http://music.2333.me')
-		.set('Referer', `http://music.2333.me/?name=${encodeURI(reqData.search)}&type=qq`)
+		.post('https://music.bbbbbb.me/')
+		.set('Host', 'music.bbbbbb.me')
+		.set('Origin', 'http://music.bbbbbb.me')
+		.set('Referer', `http://music.bbbbbb.me/?name=${encodeURI(reqData.search)}&type=qq`)
 		.set('Content-Type', `application/x-www-form-urlencoded`)
 		.set('X-Requested-With', `XMLHttpRequest`)
 		.send({
@@ -346,10 +346,10 @@ Router.post('/music/search/qq', async (ctx, next) => {
 Router.post('/music/play', async (ctx, next) => {
     let reqData = ctx.request.body;
     let data = await request
-        .post('http://music.2333.me/')
-	    .set('Host', 'music.2333.me')
-	    .set('Origin', 'http://music.2333.me')
-	    .set('Referer', `http://music.2333.me/?name=${encodeURI(reqData.search)}&type=qq`)
+        .post('http://music.bbbbbb.me/')
+	    .set('Host', 'music.bbbbbb.me')
+	    .set('Origin', 'http://music.bbbbbb.me')
+	    .set('Referer', `http://music.bbbbbb.me/?name=${encodeURI(reqData.search)}&type=qq`)
 	    .set('Content-Type', `application/x-www-form-urlencoded`)
 	    .set('X-Requested-With', `XMLHttpRequest`)
         .send({
@@ -367,54 +367,56 @@ Router.post('/music/play', async (ctx, next) => {
         data: data
     }
 });
-// Router.post('/movie/list', async (ctx, next) => {
-// 	let reqData = ctx.request.body;
-// 	let data = await request
-// 		.get('http://android.api.360kan.com/channel/')
-// 		.set('Host', 'android.api.360kan.com')
-// 		.set('User-Agent', '360 Video App/4.5.3 Android/4.4.2 QIHU')
-// 		.query({
-// 			cid: 3,
-// 			tid: 3,
-// 			start: 0,
-// 			count: 20,
-// 			method: 'channel.datas',
-// 			ss: 4,
-// 			token: '906159fa9d7a33cf08c3b8819765f24d',
-// 			ver: 159,
-// 			ch: '360ysg',
-// 			sysver: 19,
-// 			bpc: 'BfhtBfDiBgeqB2qihbqGBjXNB7ph4yq0d%253Dn7kyncdqnWvv%2526%2526%250A'
-// 		})
-// 		.then((res) => {
-// 			// console.log(ctx.res.json(res.text));
-// 			// return res.text;
-// 			console.log(JSON.parse(res));
-// 		});
-// 	return ctx.body ={
-// 		status: 200,
-// 		data: data
-// 	}
-// });
 Router.post('/movie/list', async (ctx, next) => {
 	let reqData = ctx.request.body;
 	let data = await request
-		.get('http://www.free52.com/api/mainvideo/')
-		.set('Host', 'www.free52.com')
+		.get('http://android.api.360kan.com/channel/')
+		.set('Host', 'android.api.360kan.com')
+		.set('User-Agent', '360 Video App/4.5.3 Android/4.4.2 QIHU')
 		.query({
-			type: 'dsj',
-			page: 1,
+			cid: 3,
+			tid: 3,
+			start: 0,
+			count: 20,
+			method: 'channel.datas',
+			ss: 4,
+			token: '906159fa9d7a33cf08c3b8819765f24d',
+			ver: 159,
+			ch: '360ysg',
+			sysver: 19,
+			bpc: 'BfhtBfDiBgeqB2qihbqGBjXNB7ph4yq0d%253Dn7kyncdqnWvv%2526%2526%250A'
 		})
 		.then((res) => {
 			// console.log(ctx.res.json(res.text));
-			// console.log(JSON.parse(res.text));
-			return JSON.parse(res.text);
+			// return res.text;
+			// console.log(JSON.parse(res));
+			// console.log(JSON.parse(res.text.substring(res.text.indexOf('{'))));
+			return JSON.parse(res.text.substring(res.text.indexOf('{')))
 		});
 	return ctx.body ={
 		status: 200,
 		data: data
 	}
 });
+// Router.post('/movie/list', async (ctx, next) => {
+// 	let reqData = ctx.request.body;
+// 	let data = await request
+// 		.get('http://www.free52.com/api/mainvideo/')
+// 		.set('Host', 'www.free52.com')
+// 		.query({
+// 			type: 'dsj',
+// 			page: 1,
+// 		})
+// 		.then((res) => {
+// 			// console.log(ctx.res.json(res.text));
+// 			// console.log(JSON.parse(res.text));
+// 			return JSON.parse(res.text);
+// 		});
+// 	return ctx.body ={
+// 		status: 200,
+// 		data: data
+// 	}
+// });
 Router.post('/fiction/list', async (ctx, next) => {
 	let reqData = ctx.request.body;
 	let data = await request
