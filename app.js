@@ -367,6 +367,24 @@ Router.post('/music/play', async (ctx, next) => {
         data: data
     }
 });
+// Router.post('/movie/list', async (ctx, next) => {
+// 	let reqData = ctx.request.body;
+// 	let data = await request
+// 		.get('http://uqiyi.cn/')
+// 		// .set('Host', 'llllll.ga')
+// 		.then((res) => {
+// 			// console.log(res);
+// 			// console.log(ctx.res.json(res.text));
+// 			// return res.text;
+// 			console.log(res.text);
+// 			// console.log(JSON.parse(res.text.substring(res.text.indexOf('{'))));
+// 			// return JSON.parse(res.text.substring(res.text.indexOf('{')))
+// 		});
+// 	return ctx.body ={
+// 		status: 200,
+// 		data: data
+// 	}
+// });
 Router.post('/movie/list', async (ctx, next) => {
 	let reqData = ctx.request.body;
 	let data = await request
@@ -375,8 +393,8 @@ Router.post('/movie/list', async (ctx, next) => {
 		.set('User-Agent', '360 Video App/4.5.3 Android/4.4.2 QIHU')
 		.query({
 			cid: 3,
-			tid: 3,
-			start: 0,
+			tid: reqData.tid,
+			start: reqData.start,
 			count: 20,
 			method: 'channel.datas',
 			ss: 4,
