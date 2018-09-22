@@ -416,6 +416,31 @@ Router.post('/movie/list', async (ctx, next) => {
 		data: data
 	}
 });
+Router.post('/movie/detail', async (ctx, next) => {
+	let reqData = ctx.request.body;
+	let data = await request
+		.get('http://android.api.360kan.com/coverpage/')
+		.set('Host', 'android.api.360kan.com')
+		.set('User-Agent', '360 Video App/4.5.3 Android/4.4.2 QIHU')
+		.query({
+			id: reqData.id,
+			cat: reqData.cat,
+			token: '906159fa9d7a33cf08c3b8819765f24d',
+			ver: 159,
+			method: 'coverpage.data',
+			ss: 4,
+			ch: '360ysgw',
+			sysver: 19,
+			bpc: 'BfhtBfDiBgeqB2qihbqGBjXNB7ph4yq0d%253Dn7kyncdqnWvv%2526%2526%250A'
+		})
+		.then((res) => {
+			return JSON.parse(res.text.substring(res.text.indexOf('{')))
+		});
+	return ctx.body ={
+		status: 200,
+		data: data
+	}
+});
 // Router.post('/movie/list', async (ctx, next) => {
 // 	let reqData = ctx.request.body;
 // 	let data = await request
