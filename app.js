@@ -370,15 +370,28 @@ Router.post('/music/play', async (ctx, next) => {
 // Router.post('/movie/list', async (ctx, next) => {
 // 	let reqData = ctx.request.body;
 // 	let data = await request
-// 		.get('http://uqiyi.cn/')
-// 		// .set('Host', 'llllll.ga')
+// 		.get('http://android.api.360kan.com/channel/')
+// 		.set('Host', 'android.api.360kan.com')
+// 		.set('User-Agent', '360 Video App/4.5.3 Android/4.4.2 QIHU')
+// 		.query({
+// 			cid: reqData.cid,
+// 			tid: reqData.tid,
+// 			start: reqData.start,
+// 			count: 20,
+// 			method: 'channel.datas',
+// 			ss: 4,
+// 			token: '906159fa9d7a33cf08c3b8819765f24d',
+// 			ver: 159,
+// 			ch: '360ysg',
+// 			sysver: 19,
+// 			bpc: 'BfhtBfDiBgeqB2qihbqGBjXNB7ph4yq0d%253Dn7kyncdqnWvv%2526%2526%250A'
+// 		})
 // 		.then((res) => {
-// 			// console.log(res);
 // 			// console.log(ctx.res.json(res.text));
 // 			// return res.text;
-// 			console.log(res.text);
+// 			// console.log(JSON.parse(res));
 // 			// console.log(JSON.parse(res.text.substring(res.text.indexOf('{'))));
-// 			// return JSON.parse(res.text.substring(res.text.indexOf('{')))
+// 			return JSON.parse(res.text.substring(res.text.indexOf('{')))
 // 		});
 // 	return ctx.body ={
 // 		status: 200,
@@ -388,50 +401,86 @@ Router.post('/music/play', async (ctx, next) => {
 Router.post('/movie/list', async (ctx, next) => {
 	let reqData = ctx.request.body;
 	let data = await request
-		.get('http://android.api.360kan.com/channel/')
-		.set('Host', 'android.api.360kan.com')
-		.set('User-Agent', '360 Video App/4.5.3 Android/4.4.2 QIHU')
+		.get('http://www.hacksou.com/api.php/provide/vod/')
+		// .set('Host', 'android.api.360kan.com')
+		// .set('User-Agent', '360 Video App/4.5.3 Android/4.4.2 QIHU')
 		.query({
-			cid: 3,
-			tid: reqData.tid,
-			start: reqData.start,
-			count: 20,
-			method: 'channel.datas',
-			ss: 4,
-			token: '906159fa9d7a33cf08c3b8819765f24d',
-			ver: 159,
-			ch: '360ysg',
-			sysver: 19,
-			bpc: 'BfhtBfDiBgeqB2qihbqGBjXNB7ph4yq0d%253Dn7kyncdqnWvv%2526%2526%250A'
+			t: reqData.type,
+			ac: 'list',
+			pg: reqData.page,
 		})
 		.then((res) => {
+			return JSON.parse(res.text)
 			// console.log(ctx.res.json(res.text));
 			// return res.text;
 			// console.log(JSON.parse(res));
 			// console.log(JSON.parse(res.text.substring(res.text.indexOf('{'))));
-			return JSON.parse(res.text.substring(res.text.indexOf('{')))
+			// return JSON.parse(res.text.substring(res.text.indexOf('{')))
 		});
 	return ctx.body ={
 		status: 200,
 		data: data
 	}
 });
+// Router.post('/movie/detail', async (ctx, next) => {
+// 	let reqData = ctx.request.body;
+// 	let data = await request
+// 		.get('http://android.api.360kan.com/coverpage/')
+// 		.set('Host', 'android.api.360kan.com')
+// 		.set('User-Agent', '360 Video App/4.5.3 Android/4.4.2 QIHU')
+// 		.query({
+// 			id: reqData.id,
+// 			cat: reqData.cat,
+// 			token: '906159fa9d7a33cf08c3b8819765f24d',
+// 			ver: 159,
+// 			method: 'coverpage.data',
+// 			ss: 4,
+// 			ch: '360ysgw',
+// 			sysver: 19,
+// 			bpc: 'BfhtBfDiBgeqB2qihbqGBjXNB7ph4yq0d%253Dn7kyncdqnWvv%2526%2526%250A'
+// 		})
+// 		.then((res) => {
+// 			return JSON.parse(res.text.substring(res.text.indexOf('{')))
+// 		});
+// 	return ctx.body ={
+// 		status: 200,
+// 		data: data
+// 	}
+// });
 Router.post('/movie/detail', async (ctx, next) => {
 	let reqData = ctx.request.body;
 	let data = await request
-		.get('http://android.api.360kan.com/coverpage/')
+		.get('http://www.hacksou.com/api.php/provide/vod/')
+		.query({
+			ac: 'detail',
+			ids: reqData.ids
+		})
+		.then((res) => {
+			return JSON.parse(res.text)
+		});
+	return ctx.body ={
+		status: 200,
+		data: data
+	}
+});
+Router.post('/movie/play', async (ctx, next) => {
+	let reqData = ctx.request.body;
+	let data = await request
+		.get('http://android.api.360kan.com/episode/')
 		.set('Host', 'android.api.360kan.com')
 		.set('User-Agent', '360 Video App/4.5.3 Android/4.4.2 QIHU')
 		.query({
 			id: reqData.id,
 			cat: reqData.cat,
+			index: reqData.index,
+			site: reqData.site,
+			quality: reqData.quality,
+			act: reqData.play,
 			token: '906159fa9d7a33cf08c3b8819765f24d',
 			ver: 159,
-			method: 'coverpage.data',
+			method: 'episode.single',
 			ss: 4,
 			ch: '360ysgw',
-			sysver: 19,
-			bpc: 'BfhtBfDiBgeqB2qihbqGBjXNB7ph4yq0d%253Dn7kyncdqnWvv%2526%2526%250A'
 		})
 		.then((res) => {
 			return JSON.parse(res.text.substring(res.text.indexOf('{')))
